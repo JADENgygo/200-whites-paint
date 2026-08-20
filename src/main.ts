@@ -62,7 +62,6 @@ app.innerHTML = `
       </div>
       <div class="canvas-frame">
         <canvas id="paint-canvas" width="1600" height="900" aria-label="描画キャンバス"></canvas>
-        <p class="canvas-hint">DRAG TO PAINT</p>
       </div>
       <div class="actions">
         <div class="history-actions">
