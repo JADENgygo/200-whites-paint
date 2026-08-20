@@ -301,7 +301,7 @@ undoClearButton.addEventListener("click", () => {
 
 document.querySelector("#save-button")?.addEventListener("click", () => {
   const link = document.createElement("a");
-  link.download = `200-whites-${new Date().toISOString().slice(0, 10)}.png`;
+  link.download = "200-whites.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
   status.textContent = "PNG画像を保存しました。";
