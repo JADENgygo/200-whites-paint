@@ -1,0 +1,25 @@
+{
+  "name": "200-whites-paint",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "generate:colors": "node scripts/generate-white-colors.mjs && biome format --write src/named-white-colors.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.9",
+    "@hono/vite-dev-server": "^0.23.0",
+    "color-name-list": "^14.47.0",
+    "hono": "^4.9.2",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "vitest": "^3.2.4"
+  }
+}
