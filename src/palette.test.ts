@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { relativeLuminance, rgbToHsv, whitePalette } from "./palette.ts";
+import {
+  initialBackgroundColor,
+  initialBrushColor,
+  relativeLuminance,
+  rgbToHsv,
+  whitePalette,
+} from "./palette.ts";
 
 describe("whitePalette", () => {
   it("200色を生成する", () => {
@@ -39,6 +45,14 @@ describe("whitePalette", () => {
     for (const color of whitePalette) {
       expect(color.hsv).toEqual(rgbToHsv(color.rgb));
     }
+  });
+
+  it("筆は最明色、背景は最暗色を初期値にする", () => {
+    expect(initialBrushColor).toBe(whitePalette[0]);
+    expect(initialBackgroundColor).toBe(whitePalette.at(-1));
+    expect(relativeLuminance(initialBrushColor.rgb)).toBeGreaterThan(
+      relativeLuminance(initialBackgroundColor.rgb),
+    );
   });
 });
 

@@ -120,3 +120,11 @@ export const whitePalette: readonly PaintColor[] = paletteColors.map(
     };
   },
 );
+
+function requirePaletteColor(color: PaintColor | undefined): PaintColor {
+  if (!color) throw new Error("白色パレットの初期色を設定できませんでした。");
+  return color;
+}
+
+export const initialBrushColor = requirePaletteColor(whitePalette[0]);
+export const initialBackgroundColor = requirePaletteColor(whitePalette.at(-1));
