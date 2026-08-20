@@ -19,15 +19,15 @@
 }
 
 :root[data-theme="dark"] {
-  --page: #181816;
+  --page: #242421;
   --text: #efeee9;
-  --muted: #aaa8a1;
-  --border: #55534e;
-  --control: #302f2b;
-  --palette-bed: #3a3935;
+  --muted: #b5b3ac;
+  --border: #65635d;
+  --control: #3a3935;
+  --palette-bed: #46453f;
   --button-dark: #eeece6;
   --button-dark-text: #24231f;
-  --glow: rgb(95 92 84 / 20%);
+  --glow: rgb(125 121 111 / 20%);
   --canvas-shadow: rgb(0 0 0 / 35%);
   color-scheme: dark;
 }

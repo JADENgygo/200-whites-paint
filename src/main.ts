@@ -127,7 +127,7 @@ function applyTheme(theme: Theme): void {
   themeToggle.textContent = theme === "dark" ? "ライトモード" : "ダークモード";
   document
     .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-    ?.setAttribute("content", theme === "dark" ? "#181816" : "#f4f2ec");
+    ?.setAttribute("content", theme === "dark" ? "#242421" : "#f4f2ec");
 }
 
 applyTheme(currentTheme);
