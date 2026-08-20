@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  hexToRgb,
   initialBackgroundColor,
   initialBrushColor,
   relativeLuminance,
@@ -19,14 +20,14 @@ describe("whitePalette", () => {
 
   it("すべて白に近い明るい色である", () => {
     for (const color of whitePalette) {
-      expect(Math.min(...color.rgb)).toBeGreaterThanOrEqual(240);
+      expect(Math.min(...color.rgb)).toBeGreaterThanOrEqual(235);
       expect(Math.max(...color.rgb)).toBeLessThanOrEqual(255);
     }
   });
 
   it("色の変化を微妙な範囲に抑える", () => {
     const channels = whitePalette.flatMap(({ rgb }) => [...rgb]);
-    expect(Math.max(...channels) - Math.min(...channels)).toBe(15);
+    expect(Math.max(...channels) - Math.min(...channels)).toBe(20);
   });
 
   it("左上から右下へ向かって暗くなる順に並ぶ", () => {
@@ -43,8 +44,22 @@ describe("whitePalette", () => {
 
   it("すべての色にRGBと対応するHSV値を持つ", () => {
     for (const color of whitePalette) {
+      expect(color.rgb).toEqual(hexToRgb(color.hex));
       expect(color.hsv).toEqual(rgbToHsv(color.rgb));
     }
+  });
+
+  it("すべてのRGB値にデータセット由来の固有名を持つ", () => {
+    const names = new Set(whitePalette.map(({ name }) => name));
+    expect(names.size).toBe(200);
+    expect([...names].every((name) => name.trim().length > 0)).toBe(true);
+  });
+
+  it("日本語名がある色は英語名の後へ半角空白と括弧で表示する", () => {
+    expect(whitePalette[0]?.name).toBe("White (白)");
+    expect(whitePalette.find(({ hex }) => hex === "#fffff0")?.name).toBe(
+      "Ivory (象牙色)",
+    );
   });
 
   it("筆は最明色、背景は最暗色を初期値にする", () => {
