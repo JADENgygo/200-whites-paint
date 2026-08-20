@@ -313,6 +313,11 @@ canvas {
   gap: 8px;
 }
 
+.history-actions {
+  display: flex;
+  gap: 4px;
+}
+
 .button {
   padding: 9px 15px;
   border: 1px solid #999790;
@@ -330,6 +335,13 @@ canvas {
   color: #f8f7f2;
   background: #34332f;
   outline: none;
+}
+
+.button:disabled {
+  color: #aaa8a1;
+  background: transparent;
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .button-dark {

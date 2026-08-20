@@ -1,5 +1,11 @@
 import "./style.css";
-import { drawLine, type Point, toCanvasPoint } from "./canvas.ts";
+import {
+  captureCanvas,
+  drawLine,
+  type Point,
+  restoreCanvas,
+  toCanvasPoint,
+} from "./canvas.ts";
 import {
   initialBackgroundColor,
   initialBrushColor,
@@ -57,7 +63,10 @@ app.innerHTML = `
         <p class="canvas-hint">DRAG TO PAINT</p>
       </div>
       <div class="actions">
-        <button id="clear-button" class="button button-quiet" type="button">キャンバスを消す</button>
+        <div class="history-actions">
+          <button id="clear-button" class="button button-quiet" type="button">キャンバスを消す</button>
+          <button id="undo-clear-button" class="button button-quiet" type="button" disabled>消去を元に戻す</button>
+        </div>
         <div class="primary-actions">
           <button id="copy-button" class="button" type="button">クリップボードにコピー</button>
           <button id="save-button" class="button button-dark" type="button">PNGで保存</button>
@@ -73,6 +82,7 @@ const canvas = requireElement<HTMLCanvasElement>("#paint-canvas");
 const brushSize = requireElement<HTMLInputElement>("#brush-size");
 const brushOutput = requireElement<HTMLOutputElement>("#brush-output");
 const status = requireElement<HTMLParagraphElement>("#status");
+const undoClearButton = requireElement<HTMLButtonElement>("#undo-clear-button");
 const selectedName = requireElement<HTMLSpanElement>("#selected-name");
 const selectedSwatch = requireElement<HTMLSpanElement>("#selected-swatch");
 const paletteSection = requireElement<HTMLElement>(".palette-section");
@@ -99,6 +109,12 @@ let backgroundColor: PaintColor = initialBackgroundColor;
 let selectionTarget: "brush" | "background" = "brush";
 let drawing = false;
 let previousPoint: Point | null = null;
+let clearedPainting: ImageData | null = null;
+
+function discardClearHistory(): void {
+  clearedPainting = null;
+  undoClearButton.disabled = true;
+}
 
 function renderCanvas(): void {
   context.fillStyle = backgroundColor.css;
@@ -185,6 +201,7 @@ paletteToggle.addEventListener("click", () => {
 renderCanvas();
 
 canvas.addEventListener("pointerdown", (event) => {
+  discardClearHistory();
   drawing = true;
   canvas.setPointerCapture(event.pointerId);
   previousPoint = toCanvasPoint(
@@ -235,9 +252,25 @@ brushSize.addEventListener("input", () => {
 });
 
 document.querySelector("#clear-button")?.addEventListener("click", () => {
+  if (!clearedPainting) {
+    clearedPainting = captureCanvas(
+      paintContext,
+      paintLayer.width,
+      paintLayer.height,
+    );
+  }
   paintContext.clearRect(0, 0, paintLayer.width, paintLayer.height);
   renderCanvas();
+  undoClearButton.disabled = false;
   status.textContent = "キャンバスを消去しました。";
+});
+
+undoClearButton.addEventListener("click", () => {
+  if (!clearedPainting) return;
+  restoreCanvas(paintContext, clearedPainting);
+  renderCanvas();
+  discardClearHistory();
+  status.textContent = "キャンバスの消去を元に戻しました。";
 });
 
 document.querySelector("#save-button")?.addEventListener("click", () => {
