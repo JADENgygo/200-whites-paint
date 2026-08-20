@@ -194,10 +194,7 @@ for (const [index, color] of whitePalette.entries()) {
   paletteElement.append(button);
 }
 
-const initialButton = paletteElement.children.item(selectedColor.id - 1);
-if (initialButton instanceof HTMLButtonElement) {
-  updateSelection(initialButton, selectedColor.id - 1);
-}
+updatePaletteState();
 
 function setSelectionTarget(target: "brush" | "background"): void {
   selectionTarget = target;
