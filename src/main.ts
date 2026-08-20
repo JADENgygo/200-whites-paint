@@ -1,6 +1,11 @@
 import "./style.css";
 import { drawLine, type Point, toCanvasPoint } from "./canvas.ts";
-import { type PaintColor, whitePalette } from "./palette.ts";
+import {
+  initialBackgroundColor,
+  initialBrushColor,
+  type PaintColor,
+  whitePalette,
+} from "./palette.ts";
 
 function requireElement<T extends Element>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -89,12 +94,8 @@ if (!paintContext) {
   throw new Error("描画レイヤーを初期化できませんでした。");
 }
 
-const initialColor = whitePalette[87] ?? whitePalette[0];
-if (!initialColor) {
-  throw new Error("カラーパレットを生成できませんでした。");
-}
-let selectedColor: PaintColor = initialColor;
-let backgroundColor: PaintColor = whitePalette[0] ?? initialColor;
+let selectedColor: PaintColor = initialBrushColor;
+let backgroundColor: PaintColor = initialBackgroundColor;
 let selectionTarget: "brush" | "background" = "brush";
 let drawing = false;
 let previousPoint: Point | null = null;
