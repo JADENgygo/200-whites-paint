@@ -12,6 +12,7 @@ import {
   type PaintColor,
   whitePalette,
 } from "./palette.ts";
+import { oppositeTheme, resolveInitialTheme, type Theme } from "./theme.ts";
 
 function requireElement<T extends Element>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -35,6 +36,7 @@ app.innerHTML = `
           <h2 id="palette-heading">白を選ぶ</h2>
         </div>
         <div class="palette-controls">
+          <button id="theme-toggle" class="text-toggle" type="button" aria-pressed="false">ダークモード</button>
           <button id="palette-toggle" class="palette-toggle" type="button" aria-expanded="true" aria-controls="palette">パレットを最小化</button>
           <div class="target-switch" role="radiogroup" aria-label="色の適用先">
             <button id="brush-mode" class="target-button is-active" type="button" role="radio" aria-checked="true">筆色</button>
@@ -87,6 +89,7 @@ const selectedName = requireElement<HTMLSpanElement>("#selected-name");
 const selectedSwatch = requireElement<HTMLSpanElement>("#selected-swatch");
 const paletteSection = requireElement<HTMLElement>(".palette-section");
 const paletteToggle = requireElement<HTMLButtonElement>("#palette-toggle");
+const themeToggle = requireElement<HTMLButtonElement>("#theme-toggle");
 const brushModeButton = requireElement<HTMLButtonElement>("#brush-mode");
 const backgroundModeButton =
   requireElement<HTMLButtonElement>("#background-mode");
@@ -110,6 +113,30 @@ let selectionTarget: "brush" | "background" = "brush";
 let drawing = false;
 let previousPoint: Point | null = null;
 let clearedPainting: ImageData | null = null;
+const themeStorageKey = "200-whites-theme";
+let currentTheme: Theme = resolveInitialTheme(
+  localStorage.getItem(themeStorageKey),
+  window.matchMedia("(prefers-color-scheme: dark)").matches,
+  window.matchMedia("(prefers-color-scheme: light)").matches,
+);
+
+function applyTheme(theme: Theme): void {
+  currentTheme = theme;
+  document.documentElement.dataset.theme = theme;
+  themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
+  themeToggle.textContent = theme === "dark" ? "ライトモード" : "ダークモード";
+  document
+    .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+    ?.setAttribute("content", theme === "dark" ? "#242421" : "#f4f2ec");
+}
+
+applyTheme(currentTheme);
+
+themeToggle.addEventListener("click", () => {
+  const theme = oppositeTheme(currentTheme);
+  applyTheme(theme);
+  localStorage.setItem(themeStorageKey, theme);
+});
 
 function discardClearHistory(): void {
   clearedPainting = null;
