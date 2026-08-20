@@ -28,3 +28,18 @@ export function drawLine(
   context.lineJoin = "round";
   context.stroke();
 }
+
+export function captureCanvas(
+  context: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+): ImageData {
+  return context.getImageData(0, 0, width, height);
+}
+
+export function restoreCanvas(
+  context: CanvasRenderingContext2D,
+  snapshot: ImageData,
+): void {
+  context.putImageData(snapshot, 0, 0);
+}
