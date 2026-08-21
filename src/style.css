@@ -418,6 +418,15 @@ canvas {
     height: calc(100dvh - 76px);
   }
 
+  .palette[hidden] {
+    display: grid;
+    visibility: hidden;
+  }
+
+  .palette-section.is-collapsed {
+    padding-bottom: 14px;
+  }
+
   .canvas-section {
     display: flex;
     flex-direction: column;
