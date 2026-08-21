@@ -58,9 +58,32 @@ main {
 
 .hero {
   display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   height: 76px;
   border-bottom: 1px solid var(--border);
+}
+
+.x-link {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--muted);
+  transition: color 160ms ease;
+}
+
+.x-link:hover,
+.x-link:focus-visible {
+  color: var(--text);
+  outline: 1px solid var(--border);
+  outline-offset: 2px;
+}
+
+.x-link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .step {
@@ -181,6 +204,7 @@ main {
 }
 
 .selected-swatch {
+  flex: 0 0 16px;
   width: 16px;
   height: 16px;
   margin-right: 8px;
@@ -394,6 +418,15 @@ canvas {
     height: calc(100dvh - 76px);
   }
 
+  .palette[hidden] {
+    display: grid;
+    visibility: hidden;
+  }
+
+  .palette-section.is-collapsed {
+    padding-bottom: 14px;
+  }
+
   .canvas-section {
     display: flex;
     flex-direction: column;
@@ -427,6 +460,30 @@ canvas {
     grid-template-columns: repeat(10, 1fr);
     gap: 4px;
     padding: 8px;
+  }
+
+  .color-chip:nth-child(10n + 1)::after,
+  .color-chip:nth-child(10n + 2)::after {
+    left: 0;
+    transform: translateY(3px);
+  }
+
+  .color-chip:nth-child(10n + 9)::after,
+  .color-chip:nth-child(10n)::after {
+    right: 0;
+    left: auto;
+    transform: translateY(3px);
+  }
+
+  .color-chip:nth-child(10n + 1):hover::after,
+  .color-chip:nth-child(10n + 1):focus-visible::after,
+  .color-chip:nth-child(10n + 2):hover::after,
+  .color-chip:nth-child(10n + 2):focus-visible::after,
+  .color-chip:nth-child(10n + 9):hover::after,
+  .color-chip:nth-child(10n + 9):focus-visible::after,
+  .color-chip:nth-child(10n):hover::after,
+  .color-chip:nth-child(10n):focus-visible::after {
+    transform: translateY(0);
   }
 
   .palette-controls {
