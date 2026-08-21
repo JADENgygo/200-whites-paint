@@ -429,6 +429,30 @@ canvas {
     padding: 8px;
   }
 
+  .color-chip:nth-child(10n + 1)::after,
+  .color-chip:nth-child(10n + 2)::after {
+    left: 0;
+    transform: translateY(3px);
+  }
+
+  .color-chip:nth-child(10n + 9)::after,
+  .color-chip:nth-child(10n)::after {
+    right: 0;
+    left: auto;
+    transform: translateY(3px);
+  }
+
+  .color-chip:nth-child(10n + 1):hover::after,
+  .color-chip:nth-child(10n + 1):focus-visible::after,
+  .color-chip:nth-child(10n + 2):hover::after,
+  .color-chip:nth-child(10n + 2):focus-visible::after,
+  .color-chip:nth-child(10n + 9):hover::after,
+  .color-chip:nth-child(10n + 9):focus-visible::after,
+  .color-chip:nth-child(10n):hover::after,
+  .color-chip:nth-child(10n):focus-visible::after {
+    transform: translateY(0);
+  }
+
   .palette-controls {
     align-items: flex-end;
     flex-direction: column;
