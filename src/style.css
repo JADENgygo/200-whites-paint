@@ -58,9 +58,32 @@ main {
 
 .hero {
   display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   height: 76px;
   border-bottom: 1px solid var(--border);
+}
+
+.x-link {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--muted);
+  transition: color 160ms ease;
+}
+
+.x-link:hover,
+.x-link:focus-visible {
+  color: var(--text);
+  outline: 1px solid var(--border);
+  outline-offset: 2px;
+}
+
+.x-link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .step {
