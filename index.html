@@ -36,7 +36,136 @@
     <title>200 WHITES — 白だけのペイント</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header class="hero">
+        <h1><span>200</span> WHITES</h1>
+      </header>
+      <main>
+        <section class="palette-section" aria-labelledby="palette-heading">
+          <div class="section-heading">
+            <div>
+              <span class="step">01</span>
+              <h2 id="palette-heading">白を選ぶ</h2>
+            </div>
+            <div class="palette-controls">
+              <button
+                id="theme-toggle"
+                class="text-toggle"
+                type="button"
+                aria-pressed="false"
+              >
+                ダークモード
+              </button>
+              <button
+                id="palette-toggle"
+                class="palette-toggle"
+                type="button"
+                aria-expanded="true"
+                aria-controls="palette"
+              >
+                パレットを最小化
+              </button>
+              <div
+                class="target-switch"
+                role="radiogroup"
+                aria-label="色の適用先"
+              >
+                <!-- biome-ignore lint/a11y/useSemanticElements: 選択状態をボタンの外観と操作のままラジオとして通知するため -->
+                <button
+                  id="brush-mode"
+                  class="target-button is-active"
+                  type="button"
+                  role="radio"
+                  aria-checked="true"
+                >
+                  筆色
+                </button>
+                <!-- biome-ignore lint/a11y/useSemanticElements: 選択状態をボタンの外観と操作のままラジオとして通知するため -->
+                <button
+                  id="background-mode"
+                  class="target-button"
+                  type="button"
+                  role="radio"
+                  aria-checked="false"
+                >
+                  背景色
+                </button>
+              </div>
+              <p>
+                <span id="selected-swatch" class="selected-swatch"></span
+                ><span id="selected-name"></span>
+              </p>
+            </div>
+          </div>
+          <div
+            id="palette"
+            class="palette"
+            role="radiogroup"
+            aria-label="200色の白"
+          ></div>
+        </section>
+
+        <section class="canvas-section" aria-labelledby="canvas-heading">
+          <div class="section-heading canvas-heading">
+            <div>
+              <span class="step">02</span>
+              <h2 id="canvas-heading">白で描く</h2>
+            </div>
+            <label class="brush-control">
+              <span>筆の太さ</span>
+              <input
+                id="brush-size"
+                type="range"
+                min="4"
+                max="80"
+                value="24"
+              />
+              <output id="brush-output">24</output>
+            </label>
+          </div>
+          <div class="canvas-frame">
+            <canvas
+              id="paint-canvas"
+              width="1600"
+              height="900"
+              aria-label="描画キャンバス"
+            ></canvas>
+          </div>
+          <div class="actions">
+            <div class="history-actions">
+              <button
+                id="clear-button"
+                class="button button-quiet"
+                type="button"
+              >
+                キャンバスを消す
+              </button>
+              <button
+                id="undo-clear-button"
+                class="button button-quiet"
+                type="button"
+                disabled
+              >
+                消去を元に戻す
+              </button>
+            </div>
+            <div class="primary-actions">
+              <button id="copy-button" class="button" type="button">
+                クリップボードにコピー
+              </button>
+              <button
+                id="save-button"
+                class="button button-dark"
+                type="button"
+              >
+                PNGで保存
+              </button>
+            </div>
+          </div>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
